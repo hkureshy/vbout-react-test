@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 
 import id from 'uuid/v4';
 
-import Grudges from './Grudges';
-import NewGrudge from './NewGrudge';
+import Grudges from '../Components/Grudges/Grudges';
+import NewGrudge from '../Components/NewGrudge/NewGrudge';
 
-import initialState from './initialState';
+import initialState from '../initialState';
 
 const Application = () => {
   const [grudges, setGrudges] = useState(initialState);
@@ -33,4 +33,4 @@ const Application = () => {
   );
 };
 
-export default Application;
+export { Application };
