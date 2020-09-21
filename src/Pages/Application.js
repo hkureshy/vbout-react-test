@@ -1,36 +1,44 @@
-import React, { useState } from 'react';
-
-import id from 'uuid/v4';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { ShortcutManager, Shortcuts } from 'react-shortcuts';
 
 import Grudges from '../Components/Grudges/Grudges';
 import NewGrudge from '../Components/NewGrudge/NewGrudge';
+import { keymap } from '../keymap';
+const shortcutManager = new ShortcutManager(keymap)
 
-import initialState from '../initialState';
+class Application extends Component {
+  getChildContext() {
+    return { shortcuts: shortcutManager }
+  }
 
-const Application = () => {
-  const [grudges, setGrudges] = useState(initialState);
+  handleShortcuts = (action) => {
+    switch (action) {
+      case 'UNDO':
+        this.props.undo();
+        break;
+      case 'REDO':
+        this.props.redo();
+        break;
+      default:
+        break;
+    }
+  }
 
-  const addGrudge = (grudge) => {
-    grudge.id = id();
-    grudge.forgiven = false;
-    setGrudges([grudge, ...grudges]);
-  };
-
-  const toggleForgiveness = (id) => {
-    setGrudges(
-      grudges.map((grudge) => {
-        if (grudge.id !== id) return grudge;
-        return { ...grudge, forgiven: !grudge.forgiven };
-      })
-    );
-  };
-
-  return (
-    <div className="Application">
-      <NewGrudge onSubmit={addGrudge} />
-      <Grudges grudges={grudges} onForgive={toggleForgiveness} />
-    </div>
-  );
+  render() {
+    return (
+      <Shortcuts name='TODO_ITEM' handler={this.handleShortcuts}>
+        <div className="Application">
+          <NewGrudge onSubmit={this.props.addGrudge} />
+          <Grudges grudges={this.props.grudges} onForgive={this.props.toggleForgiveness} />
+        </div>
+      </Shortcuts>
+    )
+  }
 };
+
+Application.childContextTypes = {
+  shortcuts: PropTypes.object.isRequired
+}
 
 export { Application };
