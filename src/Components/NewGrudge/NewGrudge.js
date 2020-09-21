@@ -4,9 +4,11 @@ const NewGrudge = ({ onSubmit }) => {
   const [person, setPerson] = useState('');
   const [reason, setReason] = useState('');
 
-  const handleChange = event => {
-    event.preventDefault();
+  const handleChange = (e) => {
+    e.preventDefault();
     onSubmit({ person, reason });
+    setPerson('');
+    setReason('');
   };
 
   return (

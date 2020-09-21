@@ -12,13 +12,20 @@ class Application extends Component {
     return { shortcuts: shortcutManager }
   }
 
-  handleShortcuts = (action) => {
+  handleShortcuts = (action, e) => {
     switch (action) {
       case 'UNDO':
-        this.props.undo();
+        e.preventDefault();
+        if(this.props.present.id) {
+          this.props.undo();
+        }
         break;
       case 'REDO':
-        this.props.redo();
+        e.preventDefault();
+        console.log(this.props.future.length)
+        if(this.props.future.length) {
+          this.props.redo();
+        }
         break;
       default:
         break;

@@ -6,7 +6,10 @@ import { addGrudge, toggleForgiveness, undo, redo } from '../Actions/Change';
 
 const mapStateToProps = state => {
   return {
-    grudges: state.changeReducer.grudges
+    grudges: state.changeReducer.grudges,
+    past: state.changeReducer.past,
+    present: state.changeReducer.present,
+    future: state.changeReducer.future,
   };
 };
 
