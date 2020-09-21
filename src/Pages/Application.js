@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ShortcutManager, Shortcuts } from 'react-shortcuts';
 
-import Grudges from '../Components/Grudges/Grudges';
 import NewGrudge from '../Components/NewGrudge/NewGrudge';
+import GrudgeActions from '../Components/GrudgeActions/GrudgeActions';
+import Grudges from '../Components/Grudges/Grudges';
 import { keymap } from '../keymap';
 const shortcutManager = new ShortcutManager(keymap)
 
@@ -22,7 +23,6 @@ class Application extends Component {
         break;
       case 'REDO':
         e.preventDefault();
-        console.log(this.props.future.length)
         if(this.props.future.length) {
           this.props.redo();
         }
@@ -35,8 +35,9 @@ class Application extends Component {
   render() {
     return (
       <Shortcuts name='TODO_ITEM' handler={this.handleShortcuts}>
-        <div className="Application">
+        <div className='Application'>
           <NewGrudge onSubmit={this.props.addGrudge} />
+          <GrudgeActions undo={this.props.undo} redo={this.props.redo} />
           <Grudges grudges={this.props.grudges} onForgive={this.props.toggleForgiveness} />
         </div>
       </Shortcuts>
